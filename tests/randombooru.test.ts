@@ -1,5 +1,6 @@
 import { getPages, getRandomPostfromTag } from "../randombooru";
 import { expect, test } from "vitest";
+const playwright = require("playwright");
 
 test("Peter Griffin has 7 pages in the general rating (as of writing)", async () => {
   expect(await getPages(["peter_griffin"], ["g"])).toBeGreaterThanOrEqual(7);
