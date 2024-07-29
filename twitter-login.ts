@@ -15,7 +15,8 @@ export async function postTweet(text: string) {
 
   // Press the Next button
   await page.click("span:text('Next')");
-  // This delay and if statement checks if login is obstructed by prompt asking for email
+
+  // This delay and if statement checks if login is obstructed by prompt asking for email/phone
   await page.waitForTimeout(3000);
   if (
     await page.isVisible(
@@ -33,26 +34,24 @@ export async function postTweet(text: string) {
   (await page.waitForSelector('[autocomplete="current-password"]')).fill(
     process.env.twitter_password!
   );
+
   // Press the login button
   await page.click("span:text('Log in')");
   console.log("Logging in...");
-  // Select the tweet text input(why is it a div...)
-  (await page.waitForSelector("div.public-DraftEditorPlaceholder-inner")).click(
-    { force: true }
-  );
+
+  // Select the tweet text input
+  (await page.waitForSelector('[aria-label="Post text"]')).click();
   console.log("Logged in, entering text");
-  // Delay needed here, else the keys won't register
-  await page.waitForTimeout(300);
+  // Delay needed here, else the text field won't register
+  await page.waitForTimeout(1000);
   // Type tweet text
   await page.keyboard.type(text);
 
-  console.log("Uploading image...");
   // Upload file
+  console.log("Uploading image...");
   const [fileChooser] = await Promise.all([
     page.waitForEvent("filechooser"),
-    await page
-      .locator('[aria-label="Add photos or video"]')
-      .click({ force: true }),
+    await page.locator('[aria-label="Add photos or video"]').click(),
   ]);
   await fileChooser.setFiles("./savedimage.jpg");
   await page.waitForTimeout(3000);
