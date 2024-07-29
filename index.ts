@@ -2,6 +2,11 @@ import { postTweet } from "./twitter-login";
 import { downloadRandomImagefromTag } from "./downloadImage";
 let days = require("./days.json");
 const fs = require("fs");
+const schedule = require("node-schedule");
+const rule = new schedule.RecurrenceRule();
+rule.hour = 0;
+rule.minute = 0;
+rule.tz = "Etc/UTC";
 
 // Increment a counter stored locally in JSON
 function incrementDays() {
@@ -20,4 +25,7 @@ async function main() {
   incrementDays();
 }
 
-main();
+// Post daily at the start of UTC
+const job = schedule.scheduleJob(rule, function () {
+  main();
+});
