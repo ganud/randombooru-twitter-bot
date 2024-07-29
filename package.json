@@ -3,16 +3,19 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "start": "npx playwright install && npx playwright install-deps && npx tsx index.ts"
   },
-  "author": "",
+  "author": "ganud",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@types/node-schedule": "^2.1.7",
     "axios": "^1.7.2",
     "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.4.5",
     "lodash-es": "^4.17.21",
+    "node-schedule": "^2.1.1",
     "playwright": "^1.45.3",
     "tsx": "^4.16.2",
     "typescript": "^5.5.4"
