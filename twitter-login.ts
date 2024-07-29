@@ -1,7 +1,8 @@
 import playwright from "playwright";
 require("dotenv").config();
 
-async function postTweet(text: string) {
+// Login into twitter and post tweet
+export async function postTweet(text: string) {
   const browser = await playwright["chromium"].launch();
   const context = await browser;
   const page = await context.newPage();
@@ -63,5 +64,3 @@ async function postTweet(text: string) {
 
   await browser.close();
 }
-
-postTweet("I love lasagna");

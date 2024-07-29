@@ -11,7 +11,7 @@ const headers = {
   "Accept-Language": "en-US,en;q=0.9",
 };
 
-async function getRandomPostfromTag(
+export default async function getRandomPostfromTag(
   tags: Array<string>,
   ratings: Array<string>
 ) {
@@ -20,7 +20,19 @@ async function getRandomPostfromTag(
     throw new Error("Tag entered is invalid");
   }
   const pagelink = await generateRandomPageLink(pages, tags, ratings);
-  console.log(await getRandomLinkFromPage(pagelink));
+  return await getRandomLinkFromPage(pagelink);
+}
+
+// Extract image link from post
+export async function getPostDetails(url: string) {
+  const response = await axios.get(url, {
+    headers,
+  });
+  const $ = cheerio.load(response.data);
+  return {
+    artist: $("a.search-tag").first().text(),
+    imageurl: $("#image").attr("src"),
+  };
 }
 
 // Get number of pages from a tag
