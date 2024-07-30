@@ -21,7 +21,9 @@ async function main() {
     ["miyako_(blue_archive)", "solo"],
     ["g"]
   );
-  await postTweet(`Day ${days.count} of Miyako (Art by ${artist})`);
+  await postTweet(
+    `Day ${days.count} of Miyako (Art by ${artist}) #月雪ミヤコ #ブルアカ`
+  );
   incrementDays();
 }
 

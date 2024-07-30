@@ -47,9 +47,14 @@ export async function postTweet(text: string) {
   await page.waitForTimeout(1000);
   // Type tweet text
   await page.keyboard.type(text);
-
+  // Click off into some area, incase the text input is a hastag which opens a dialogue that blocks the upload button
+  await page.locator('[aria-label="Search query"]').click({ force: true });
   // Upload file
   console.log("Uploading image...");
+  await page.screenshot({
+    path: `nodejs_${"chromium"}.png`,
+    fullPage: true,
+  });
   const [fileChooser] = await Promise.all([
     page.waitForEvent("filechooser"),
     await page.locator('[aria-label="Add photos or video"]').click(),
