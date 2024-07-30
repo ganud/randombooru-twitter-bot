@@ -8,7 +8,7 @@ This projects aims to to automate twitter posting using tagged images from [danb
     <img src="https://i.imgur.com/WGFNFWi.png"></img>
 </div>
 
-## Installation
+## Installation & Usage
 
 1.  Clone this repo
 2.  Install NPM packages
@@ -27,9 +27,7 @@ npm install
 npx tsx index.ts
 ```
 
-## Usage
-
-This project is essentially 2 standalone scripts joined into a cron function to post the contents of the tweet
+This project is essentially 2 standalone scripts joined into a cron function to post the contents of the tweet through index.ts
 
 1. twitter-login.ts, containing the twitter login and post logic
 2. randoombooru.ts, containing getRandomPostfromTag to supply the link to download an image from to save and provide for twitter-login.ts
