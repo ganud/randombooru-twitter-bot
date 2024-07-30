@@ -28,7 +28,6 @@ export async function postTweet(text: string) {
     );
     console.log("Login is obstructed: Entering email");
     await page.click("span:text('Next')");
-    // await page.waitForTimeout(3000); May need this timeout, but I haven't tested this yet.
   }
 
   // Fill password
@@ -45,16 +44,15 @@ export async function postTweet(text: string) {
   console.log("Logged in, entering text");
   // Delay needed here, else the text field won't register
   await page.waitForTimeout(1000);
+
   // Type tweet text
   await page.keyboard.type(text);
+
   // Click off into some area, incase the text input is a hastag which opens a dialogue that blocks the upload button
   await page.locator('[aria-label="Search query"]').click({ force: true });
+
   // Upload file
   console.log("Uploading image...");
-  await page.screenshot({
-    path: `nodejs_${"chromium"}.png`,
-    fullPage: true,
-  });
   const [fileChooser] = await Promise.all([
     page.waitForEvent("filechooser"),
     await page.locator('[aria-label="Add photos or video"]').click(),
