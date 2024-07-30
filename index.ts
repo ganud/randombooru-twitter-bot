@@ -18,14 +18,15 @@ function incrementDays() {
 async function main() {
   // Replace tags and ratings here
   const artist = await downloadRandomImagefromTag(
-    ["don_quixote_(project_moon)", "solo"],
+    ["miyako_(blue_archive)", "solo"],
     ["g"]
   );
-  postTweet(`Day ${days.count} of Don (Art by ${artist})`);
+  await postTweet(`Day ${days.count} of Miyako (Art by ${artist})`);
   incrementDays();
 }
 
+main();
 // Post daily at the start of UTC
-const job = schedule.scheduleJob(rule, function () {
-  main();
+const job = schedule.scheduleJob(rule, async function () {
+  await main();
 });

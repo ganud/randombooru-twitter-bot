@@ -28,6 +28,7 @@ export async function postTweet(text: string) {
     );
     console.log("Login is obstructed: Entering email");
     await page.click("span:text('Next')");
+    // await page.waitForTimeout(3000); May need this timeout, but I haven't tested this yet.
   }
 
   // Fill password
