@@ -1,13 +1,26 @@
 const fs = require("fs");
 const Axios = require("axios");
-import { getRandomPostfromTag, getPostDetails } from "./randombooru";
+import {
+  getRandomUniquePostfromTag,
+  getPostDetails,
+  getRandomPostfromTag,
+} from "./randombooru";
 
 export async function downloadRandomImagefromTag(
   tags: Array<string>,
   ratings: Array<string>
 ) {
   // Get the post link
-  const posturl = await getRandomPostfromTag(tags, ratings);
+  let posturl = "";
+  // Try getting a unique post, but if that fails just select one anyway
+  try {
+    posturl = await getRandomUniquePostfromTag(tags, ratings, 3);
+  } catch {
+    console.log(
+      "Retrying for unique post unsuccessful, using normal random selecion instead"
+    );
+    posturl = await getRandomPostfromTag(tags, ratings);
+  }
   // Extract image link from post
   const postdetails = await getPostDetails(posturl);
   // Download from that image link

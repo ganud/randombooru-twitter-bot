@@ -22,7 +22,7 @@ async function main() {
     ["g"]
   );
   await postTweet(
-    `Day ${days.count} of Miyako (Art by ${artist}) #月雪ミヤコ #ブルアカ`
+    `#${days.count} | Today's Miyako by ${artist} #月雪ミヤコ #ブルアカ`
   );
   incrementDays();
 }
