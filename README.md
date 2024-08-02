@@ -5,7 +5,7 @@
 This projects aims to to automate twitter posting using tagged images from [danbooru](https://danbooru.donmai.us/posts?tags=don_quixote_%28project_moon%29+solo+rating%3Ag&z=5) through use of web scrapers such as Playwright and Cheerio.
 
 <div align="center">
-    <img src="https://i.imgur.com/4CmHqlN.png"></img>
+    <img src="https://i.imgur.com/WGFNFWi.png"></img>
 </div>
 
 ## Installation & Usage
@@ -19,7 +19,7 @@ npm install
 
 3.  Install playwright dependencies when prompted
 4.  Add your credentials in .env
-    <img src="https://i.imgur.com/CULuNLi.png"></img>
+    <img src="https://i.imgur.com/4CmHqlN.png"></img>
 5.  In index.ts, replace arguments inside downloadRandomImagefromTag and postTweet with tags and tweet text of your choosing
 6.  Run the script
 
