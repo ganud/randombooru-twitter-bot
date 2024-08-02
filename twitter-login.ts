@@ -44,11 +44,10 @@ export async function postTweet(text: string) {
   console.log("Logged in, entering text");
   // Delay needed here, else the text field won't register
   await page.waitForTimeout(1000);
-
   // Type tweet text
-  await page.keyboard.type(text);
+  await page.keyboard.type(text, { delay: 100 });
 
-  // Click off into some area, incase the text input is a hastag which opens a dialogue that blocks the upload button
+  // Click off into some area, incase the text input is a hashtag which opens a dialogue that blocks the upload button
   await page.locator('[aria-label="Search query"]').click({ force: true });
 
   // Upload file
