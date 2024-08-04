@@ -9,9 +9,7 @@ export async function postTweet(text: string) {
   await page.goto("https://twitter.com/i/flow/login");
 
   // Fill username
-  (await page.waitForSelector("[autocomplete=username]")).fill(
-    process.env.twitter_user!
-  );
+  await page.fill("[autocomplete=username]", process.env.twitter_user!);
 
   // Press the Next button
   await page.click("span:text('Next')");
@@ -23,15 +21,14 @@ export async function postTweet(text: string) {
       "span:text('Enter your phone number or email address')"
     )
   ) {
-    (await page.waitForSelector("[inputmode=text]")).fill(
-      process.env.twitter_email!
-    );
+    await page.fill("[inputmode=text]", process.env.twitter_email!);
     console.log("Login is obstructed: Entering email");
     await page.click("span:text('Next')");
   }
 
   // Fill password
-  (await page.waitForSelector('[autocomplete="current-password"]')).fill(
+  await page.fill(
+    "[autocomplete=current-password]",
     process.env.twitter_password!
   );
 
@@ -39,28 +36,27 @@ export async function postTweet(text: string) {
   await page.click("span:text('Log in')");
   console.log("Logging in...");
 
-  // Select the tweet text input
-  (await page.waitForSelector('[aria-label="Post text"]')).click();
+  // Select the tweet text input and fill
+  await page.fill('[aria-label="Post text"]', text);
   console.log("Logged in, entering text");
-  // Delay needed here, else the text field won't register
-  await page.waitForTimeout(1000);
-  // Type tweet text
-  await page.keyboard.type(text, { delay: 100 });
 
   // Click off into some area, incase the text input is a hashtag which opens a dialogue that blocks the upload button
   await page.locator('[aria-label="Search query"]').click({ force: true });
 
   // Upload file
-  console.log("Uploading image...");
+  console.log("Starting image upload...");
   const [fileChooser] = await Promise.all([
     page.waitForEvent("filechooser"),
     await page.locator('[aria-label="Add photos or video"]').click(),
   ]);
   await fileChooser.setFiles("./savedimage.jpg");
-  await page.waitForTimeout(3000);
+  // This selector only appears when an image is successfully uploaded, so it serves as a confirmation.
+  await page.waitForSelector('[aria-label="Tag people"]');
+  console.log("Image uploaded.");
 
   // Post tweet
   await page.locator('[data-testid="tweetButtonInline"]').click();
+  // Haven't found a working selector that officially confirms the post, so this delay functionally does the same.
   await page.waitForTimeout(3000);
   console.log("Tweet has been posted!");
 
