@@ -1,10 +1,12 @@
 import { postTweet } from "./twitter-login";
 import { downloadRandomImagefromTag } from "./downloadImage";
 let days = require("./days.json");
-const fs = require("fs");
-const schedule = require("node-schedule");
+import fs = require("fs");
+import schedule = require("node-schedule");
+
 const rule = new schedule.RecurrenceRule();
-rule.hour = 0;
+// 3PM EDT
+rule.hour = 19;
 rule.minute = 0;
 rule.tz = "Etc/UTC";
 

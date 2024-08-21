@@ -38,6 +38,7 @@ async function getRandomUniquePostfromTag(
       return post;
     } catch (error) {
       console.log("Post has already been used, retrying...");
+      // Wait 2 seconds, because spamming is a bit evil
       await delay(2000);
     }
   }

@@ -130,4 +130,8 @@ dist
 
 nodejs_chromium.png
 savedimage.jpg
-days.json
+
+.github
+.dockerignore
+Dockerfile
+fly.toml

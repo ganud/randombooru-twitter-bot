@@ -1,5 +1,5 @@
 const fs = require("fs");
-const Axios = require("axios");
+import axios from "axios";
 import {
   getRandomUniquePostfromTag,
   getPostDetails,
@@ -14,10 +14,10 @@ export async function downloadRandomImagefromTag(
   let posturl = "";
   // Try getting a unique post, but if that fails just select one anyway
   try {
-    posturl = await getRandomUniquePostfromTag(tags, ratings, 3);
+    posturl = await getRandomUniquePostfromTag(tags, ratings, 10);
   } catch {
     console.log(
-      "Retrying for unique post unsuccessful, using normal random selecion instead"
+      "Retrying for unique post unsuccessful, using normal random selection instead"
     );
     posturl = await getRandomPostfromTag(tags, ratings);
   }
@@ -31,7 +31,7 @@ export async function downloadRandomImagefromTag(
 
 // downloadImage provided by https://scrapingant.com/blog/download-image-javascript
 export async function downloadImage(url: string, filepath: string) {
-  const response = await Axios({
+  const response = await axios({
     url,
     method: "GET",
     responseType: "stream",
