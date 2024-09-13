@@ -27,17 +27,19 @@ async function getRandomUniquePostfromTag(
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
   let post = "";
-  console.log(post);
 
-  // Retry if post has already been used before
+  // Retry up until the limit if post is a duplicate.
   for (let i = 0; i < retries; i++) {
     try {
       post = await getRandomPostfromTag(tags, ratings);
+      if (await isDuplicate(post)) {
+        throw Error("Post is a variant or duplicate");
+      }
       await pool.query(`INSERT INTO posts (post) VALUES ('${post}');`);
       console.log("Found unique post.");
       return post;
     } catch (error) {
-      console.log("Post has already been used, retrying...");
+      console.log("Retrying...");
       // Wait 2 seconds, because spamming is a bit evil
       await delay(2000);
     }
@@ -120,6 +122,30 @@ async function getRandomLinkFromPage(pageLink: string) {
   });
   // Return the full post link
   return "https://danbooru.donmai.us" + `${sample(formattedlinks)}`;
+}
+
+async function isDuplicate(post: string) {
+  const response = await axios.get(post, {
+    headers,
+  });
+  const $ = cheerio.load(response.data);
+  // If this post is a child(variant), return true
+  const childNotice = $("div.post-notice-child").length;
+  if (childNotice) {
+    console.log("Found variant.");
+    return true;
+  }
+  // If the post already exists in the database, return true
+  const postResult = await pool.query(
+    `SELECT * FROM posts WHERE post = '${post}'`
+  );
+
+  if (postResult.rowCount) {
+    console.log("Found duplicate.");
+    return true;
+  }
+
+  return false;
 }
 
 function getRandomInt(min: number, max: number) {
