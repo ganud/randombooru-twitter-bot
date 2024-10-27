@@ -1,10 +1,11 @@
-const fs = require("fs");
+import fs = require("fs");
 import axios from "axios";
 import {
   getRandomUniquePostfromTag,
   getPostDetails,
   getRandomPostfromTag,
 } from "./randombooru";
+import { some } from "lodash-es";
 
 export async function downloadRandomImagefromTag(
   tags: Array<string>,
@@ -26,7 +27,10 @@ export async function downloadRandomImagefromTag(
   // Download from that image link
   downloadImage(postdetails.imageurl!, "./savedimage.jpg");
   // Return the artist name to be credited
-  return postdetails.artist;
+  return {
+    artist: postdetails.artist,
+    source: postdetails.source,
+  };
 }
 
 // downloadImage provided by https://scrapingant.com/blog/download-image-javascript

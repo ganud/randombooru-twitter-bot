@@ -20,11 +20,12 @@ function incrementDays() {
 async function main() {
   // Replace tags and ratings here
   const artist = await downloadRandomImagefromTag(
-    ["miyako_(blue_archive)", "solo"],
+    ["don_quixote_(project_moon)", "solo"],
     ["g"]
   );
   await postTweet(
-    `#${days.count} | Today's Miyako by ${artist} #月雪ミヤコ #ブルアカ`
+    `#${days.count} | Today's Don by ${artist.artist} #月雪ミヤコ #ブルアカ`,
+    artist.source
   );
   incrementDays();
 }
