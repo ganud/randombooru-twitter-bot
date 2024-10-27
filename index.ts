@@ -24,11 +24,7 @@ async function main() {
     ["g"]
   );
   await postTweet(
-<<<<<<< HEAD
     `#${days.count} | Today's Don by ${artist.artist} #月雪ミヤコ #ブルアカ`,
-=======
-    `#${days.count} | Today's Miyako by ${artist.artist} #月雪ミヤコ #ブルアカ`,
->>>>>>> reply
     artist.source
   );
   incrementDays();
