@@ -2,7 +2,7 @@ import playwright from "playwright";
 require("dotenv").config();
 
 // Login into twitter and post tweet
-export async function postTweet(text: string) {
+export async function postTweet(text: string, source: string) {
   const browser = await playwright["chromium"].launch();
   const context = await browser;
   const page = await context.newPage();
@@ -25,7 +25,6 @@ export async function postTweet(text: string) {
     console.log("Login is obstructed: Entering email");
     await page.click("span:text('Next')");
   }
-
   // Fill password
   await page.fill(
     "[autocomplete=current-password]",
@@ -60,5 +59,26 @@ export async function postTweet(text: string) {
   await page.waitForTimeout(3000);
   console.log("Tweet has been posted!");
 
+  // Go to the profile page to find the recently posted tweet
+  await page.goto(`https://twitter.com/${process.env.twitter_user}`);
+  // Click on the first tweet (which should be the one just posted)
+  await page
+    .locator('[data-testid="tweetText"]')
+    .first()
+    // Set position parameters to avoid clicking on hashtags which redirect elsewhere
+    .click({ position: { x: 0, y: 0 } });
+  // Post reply
+  try {
+    await page.fill('[aria-label="Post text"]', source);
+  } catch {
+    // By this point, the tweet is already posted
+    // Rather not have my PaaS restart from an error and post another tweet due to missing the reply
+    console.log("Error posting source");
+    await browser.close();
+    return;
+  }
+  await page.locator('[data-testid="tweetButtonInline"]').click();
+  await page.waitForTimeout(3000);
+  console.log("Source has been posted!");
   await browser.close();
 }

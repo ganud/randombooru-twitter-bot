@@ -70,6 +70,7 @@ export async function getPostDetails(url: string) {
   return {
     artist: $("a.search-tag").first().text(),
     imageurl: $("#image").attr("src"),
+    source: $("li#post-info-source>a").first().text(),
   };
 }
 
